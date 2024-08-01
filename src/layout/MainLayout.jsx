@@ -5,10 +5,22 @@ import { Flex } from "antd";
 
 function MainLayout() {
   return (
-    <Flex gap={5}>
+    <>
       <Navbar />
-      <Outlet />
-    </Flex>
+      <main>
+        <Outlet />
+      </main>
+
+      <footer>
+        <a href="https://t.me/MixedMavzular" target="_blank">
+          Telegram channel
+        </a>{" "}
+        |
+        <a href="https://t.me/Developer0203" target="_blank">
+          Contact me
+        </a>
+      </footer>
+    </>
   );
 }
 

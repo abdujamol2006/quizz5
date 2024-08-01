@@ -10,6 +10,10 @@ import { DatePicker } from "antd";
 import MainLayout from "./layout/MainLayout";
 //pages
 import Home from "./pages/Home";
+import Quiz from "./pages/Quiz";
+
+import ErrorPage from "./pages/ErrorPage";
+
 import About from "./pages/About";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Register from "./pages/Register";
@@ -26,9 +30,14 @@ function App() {
           <MainLayout />
         </ProtectedRoutes>
       ),
+      errorElement: <ErrorPage />,
       children: [
         { index: true, element: <Home /> },
         { path: "/about", element: <About /> },
+        {
+          path: "/quiz/:title",
+          element: <Quiz />,
+        },
       ],
     },
     { path: "/login", element: user ? <Navigate to="/" /> : <Login /> },

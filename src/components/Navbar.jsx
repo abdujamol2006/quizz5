@@ -1,50 +1,65 @@
-//icons
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
-//antd
-import { Flex, Menu, Typography, Space } from "antd";
-//rrd
-import { Link } from "react-router-dom";
-//Typography
-const { Title } = Typography;
-const items = [
-  {
-    key: "13",
-    label: <Link to="/">Home</Link>,
-  },
-  {
-    key: "14",
-    label: <Link to="/about">About</Link>,
-  },
-  ,
-];
-const Navbar = () => {
-  const onClick = (e) => {
-    console.log("click ", e);
-  };
-  return (
-    <Flex vertical>
-      <div>
-        <Typography>
-          <Title level={2}>
-            <Space align="center">MyStore</Space>
-          </Title>
-        </Typography>
-      </div>
-      <Menu
-        onClick={onClick}
-        style={{
-          width: 256,
-        }}
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
-        mode="inline"
-        items={items}
-      />
-    </Flex>
-  );
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+
+const toggleMode = () => {
+  return localStorage.getItem("darkMode") || "light";
 };
+
+function Navbar() {
+  const { title } = useParams();
+  const [theme, setTheme] = useState(() => toggleMode());
+
+  const handleThemeToggle = (e) => {
+    e.preventDefault();
+    const newTheme = theme === "dark-mode" ? "light" : "dark-mode";
+    setTheme(newTheme);
+  };
+
+  useEffect(() => {
+    document.body.className = "";
+    document.body.classList.add(theme);
+    localStorage.setItem("darkMode", theme);
+  }, [theme]);
+
+  return (
+    <header className="header">
+      <div className="header-container container">
+        {title ? (
+          <Link className="header-logo" to="/">
+            <figure>
+              <img
+                src={`../assets/icon-${title.toLowerCase()}.svg`}
+                alt="icon"
+              />
+            </figure>
+            <span>{title}</span>
+          </Link>
+        ) : (
+          <span></span>
+        )}
+
+        {/* NAVBAR TOGGLE */}
+        <div>
+          <label
+            htmlFor="dark"
+            className="dark-btn"
+            onClick={handleThemeToggle}
+          >
+            <input
+              type="checkbox"
+              id="dark"
+              checked={theme === "dark-mode"}
+              readOnly
+            />
+            <span>
+              <span></span>
+              <span></span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </header>
+  );
+}
+
 export default Navbar;
